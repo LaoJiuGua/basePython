@@ -17,4 +17,8 @@ mystr = 'hello world itcast and itcastcpp'
 
 # print(mystr.capitalize()) # 将字符串的首字母转成大写字母
 
-print(mystr.title())
+# print(mystr.title())  # 将字符串每个单词首字母都转成大写字母
+
+# print(mystr.startswith('obj')) # 查找字符串是否以'obj'开头，返回True或者False
+
+
