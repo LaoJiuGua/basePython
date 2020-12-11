@@ -1,6 +1,3 @@
-
-
-
 import re
 
 
@@ -20,7 +17,7 @@ def menu():
     7 显示所有学的信息
     0 退出系统
     =========== 感谢使用 ===========
-    说明:通过数字或↑↓方向键选择菜单
+    说明:通过数字选择菜单
     """)
 
 
@@ -28,16 +25,16 @@ def main():
     """ 
         主函数入口
     """
-    ctrl = True  # 标记是否退出系统
-    while (ctrl):
+    while True:
         menu()
         option = input("请选择:")
         option_str = re.sub("\D","",option)
         if option_str in ['0','1','2','3','4','5','6','7',]:
-            if int(option_str) == 0 :
+
+            if int(option_str) == 0 :   # 退出学生系统
                 print("您已退出学生信息管理系统")
                 break
-            elif int(option_str) == 1 :
+            elif int(option_str) == 1 :  
                 pass
             elif int(option_str) == 2 :
                 pass

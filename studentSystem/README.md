@@ -25,10 +25,10 @@ typora-root-url: img
   - 统计学生总人数模块
   - 显示全部学生信息模块
 
-<img src="C:\Users\wang\Desktop\学生管理系统\img\学生管理系统.png" alt="学生管理系统" style="zoom: 70%;"  />
+<img src="img\学生管理系统.png" alt="学生管理系统" style="zoom: 70%;"  />
 
  - ##### 1.2.1  系统业务流程
 
-   ![text.drawio](/text.drawio.png)
+   ![text.drawio](img/text.drawio.png)
 
    
