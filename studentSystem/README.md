@@ -25,7 +25,7 @@ typora-root-url: img
   - 统计学生总人数模块
   - 显示全部学生信息模块
 
-<img src="img\学生管理系统.png" alt="学生管理系统" style="zoom: 70%;"  />
+ ![text.drawio](img/student.png)
 
  - ##### 1.2.1  系统业务流程
 
