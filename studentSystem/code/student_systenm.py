@@ -50,7 +50,6 @@ def sava(student):
 def show():
     """ 查找学生信息 """
     student_new = []
-    print(1)
     if os.path.exists(filename):            # 判断文件是否存在
         with open(filename,'r') as rfile:   # 打开文件
             student_old = rfile.readlines()
@@ -123,25 +122,150 @@ def delete():
         else:
             break       # 退出删除学生信息功能
 
+def search():
+    """
+        查找学生信息
+    """
+    mark  = True
+    student_li = []     # 保存查询学生信息的列表
+    while mark:
+        id = ''             # 初始化id为空
+        name = ''           # 初始化name为空
+        if os.path.exists(filename):            # 判断文件是否存在
+            mode = input("按ID查询输入1,按名字查询输入2:")
+            if mode == "1":                     # 按照id查询
+                id = input("请输入查询学生的ID:")
+            elif mode == "2":                   # 按照name查询
+                name = input("请输入查询学生的名字:")
+            else:
+                print("输入有误,请重新输入!")
+                continue
+            with open(filename,"r",encoding="gbk") as f:        # 打开文件
+                students = f.readlines()                        # 列表形式读取文件
+                for student in students:                        # 循环文件列表
+                    d = dict(eval(student))                     # 字符串转字典
+                    if id is not "":
+                        if d['id'] == id:                       # 判断循环的单个字典id是否等于输入的id
+                            student_li.append(d)                # 查询到的信息保存到列表内
+                    if name is not "":
+                        if d['name'] == name:                   # 判断循环的单个字典name是否等于输入的name
+                            student_li.append(d)                # 查询到的信息保存到列表内
+            show_student(student_li)                            # 将查询到的美化输出
+            student_li.clear()                                  # 清空列表
+            # 判断是否继续查询
+            inputMark = input("是否继续查询(y/n):")
+            if inputMark.lower() == "y":
+                continue
+            elif inputMark.lower() == "n":
+                break
+        else:
+            print("未找到学生信息...")
+            return
+
+def total():
+    if os.path.exists(filename):
+        with open(filename,"r",encoding="gbk") as f:
+            students = f.readlines()
+        if students:
+            print("一共有%d个学生" % len(students))
+        else:
+           print("还没有录入学生信息！")
+    else:
+        print("未查询到数据！") 
+
+def modify():
+    """
+        修改学生信息
+    """
+    show()                          # 显示出学生信息
+    if os.path.exists(filename):    # 判断文件是否存在
+        with open(filename,"r",encoding='gbk') as f:
+            student_olds = f.readlines()    # 按列表取出数据
+    else:
+        print('未找到数据...')
+    id = input("请输入要修改学生的ID:")
+    with open(filename,"w",encoding='gbk') as f:    # 按照写方式打开文件
+        for student in student_olds:   
+            d = dict(eval(student))         # 字符串转成字典
+            if d['id'] == id:               
+                print("找到学生请修改！")
+                while True:
+                    try:
+                        # 在字典内按照键修改值
+                        d['name'] = input("请输入要修改学生的名字:")
+                        d['english'] = int(input("请输入要修改学生的英语成绩:"))
+                        d['python'] = int(input("请输入要修改学生的Python成绩:"))
+                        d['c'] = int(input("请输入要修改学生的C语言成绩:"))
+                    except Exception:
+                        print("输入有误,请从新输入！")
+                    else:
+                        break
+                students_new = str(d)       # 把字典转成字符串
+                f.write(students_new + '\n')      # 改过的新数据保存到文件内
+            else:
+                f.write(student)            # 未修改过的文件保存到文件内
+        mark = input("是否继续修改？（y/n）")
+        if mark.lower() == 'y':             # 判断是否继续
+            modify()
+        return
+
+def sort():
+    show()
+    if os.path.exists(filename):
+        with open(filename,"r",encoding="gbk") as f:
+            students = f.readlines()
+    else:
+        print('无数据信息....')
+    student_li = []
+    for studen in students:
+        d = dict(eval(studen))
+        student_li.append(d)
+    s = input('请选择(升序:1/降序:2): ')      # 选择升序或者降序
+    if s == "1":
+        is_reverse = False                  # 升序给is_reverse False值
+    elif s == "2":
+        is_reverse = True                   # 降序给is_reverse True值
+    else:
+        print("输入错误,请重新输入！")
+        sort()
+    so_new = input("请选择排序方式(english:1 / Python:2 / C语言:3 / 总成绩:4)：")   # 选择排序方式
+    # 使用内置的排序方法，reverse是控制升序或者降序
+    if so_new == "1":
+        student_li.sort(key=lambda x:x["english"], reverse=is_reverse)    
+    elif so_new == "2":
+        student_li.sort(key=lambda x:x["python"], reverse=is_reverse)
+    elif so_new == "3":
+        student_li.sort(key=lambda x:x["c"], reverse=is_reverse)
+    elif so_new == "4":
+        student_li.sort(key=lambda x:x["english"] + x["python"] + x["c"] , reverse=is_reverse)
+    else:
+        print('输入错误,请重新输入...')
+        sort()
+    # 显示出排序的数据
+    show_student(student_li)
+
 def menu():
     """
        输入菜单 
     """
     print("""
-    =========== 功能菜单 ===========
-
-    1 录入学生信息
-    2 查找学生信息
-    3 删除学生信息
-    4 修改学生信息
-    5 排序
-    6 统计学生总人数
-    7 显示所有学的信息
-    0 退出系统
-    =========== 感谢使用 ===========
-    说明:通过数字选择菜单
+    -----------------------------------------------------------
+                                                             
+              =========== 功能菜单 ===========                
+                                                             
+               1 录入学生信息                                  
+               2 查找学生信息                                   
+               3 删除学生信息
+               4 修改学生信息
+               5 排序
+               6 统计学生总人数
+               7 显示所有学生信息
+               0 退出系统
+               =========== 感谢使用 ===========
+               说明:通过数字选择菜单
+    
+    ------------------------------------------------------------
     """)
-
 
 def main():
     """ 
@@ -156,19 +280,19 @@ def main():
             if int(option_str) == 0 :   # 退出学生系统
                 print("您已退出学生信息管理系统")
                 break
-            elif int(option_str) == 1 :  
+            elif int(option_str) == 1 :  # 录入学生信息
                 insert()
-            elif int(option_str) == 2 :
-                show()
-            elif int(option_str) == 3 :
+            elif int(option_str) == 2 :   # 查找学生信息
+                search()
+            elif int(option_str) == 3 :    # 删除学生信息
                 delete()
-            elif int(option_str) == 4 :
-                pass
-            elif int(option_str) == 5 :
-                pass
-            elif int(option_str) == 6 :
-                pass
-            elif int(option_str) == 7 :
-                pass
+            elif int(option_str) == 4 :     # 修改学生信息
+                modify()
+            elif int(option_str) == 5 :     # 排序
+                sort()
+            elif int(option_str) == 6 :     # 统计人数
+                total()
+            elif int(option_str) == 7 :     # 显示所有学生信息
+                show()
 
 main()
