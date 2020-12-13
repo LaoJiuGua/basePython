@@ -48,7 +48,7 @@ def sava(student):
     students_txt.close()
 
 def show():
-    """ 查找学生信息 """
+    """ 显示所有学生信息 """
     student_new = []
     if os.path.exists(filename):            # 判断文件是否存在
         with open(filename,'r') as rfile:   # 打开文件
@@ -163,6 +163,9 @@ def search():
             return
 
 def total():
+    """
+        统计所有学生信息
+    """
     if os.path.exists(filename):
         with open(filename,"r",encoding="gbk") as f:
             students = f.readlines()
@@ -210,6 +213,9 @@ def modify():
         return
 
 def sort():
+    """
+        排序
+    """
     show()
     if os.path.exists(filename):
         with open(filename,"r",encoding="gbk") as f:
